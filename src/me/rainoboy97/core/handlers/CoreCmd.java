@@ -36,7 +36,7 @@ public abstract class CoreCmd implements CommandExecutor {
 				this.cmdSender = console;
 				return onCmd(null, console, command, alias, args);
 			}
-			sender.sendMessage(Txt.parse("<red>This command can only be executed by a player!"));
+			sender.sendMessage(Txt.parse("<red>This command can only be executed by console!"));
 		} else if (csender == CSender.BOTH){
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
