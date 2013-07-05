@@ -1,6 +1,5 @@
 package me.rainoboy97.core;
 
-import me.rainoboy97.core.commands.Core_cmd;
 import me.rainoboy97.core.utils.CoreLog;
 import me.rainoboy97.core.utils.Txt;
 
@@ -10,6 +9,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Core extends JavaPlugin implements Listener {
 
 	public static Core core;
+	
+	
 
 	public void onDisable() {
 
@@ -17,20 +18,14 @@ public class Core extends JavaPlugin implements Listener {
 
 	public void onEnable() {
 		Core.core = this;
-		
 		long timeStarted = System.currentTimeMillis();
 		
 		CoreLog.logWithColor("<green>Enabling");
-		CoreLog.logWithColor("<yellow>Registering commands");
-		this.registerCommands();
-		CoreLog.logWithColor("<yellow>Registering events");
+		
+		
+		
 		// Register events
-		long timeNow = System.currentTimeMillis();
-		CoreLog.logWithColor(Txt.parse("<green>Successfully enabled (<gold>" + (timeNow - timeStarted) + "ms<green>)"));
-	}
-	
-	private void registerCommands() {
-		this.getCommand("core").setExecutor(new Core_cmd(this));
+		CoreLog.logWithColor(Txt.parse("<green>Successfully enabled (<gold>" + (System.currentTimeMillis() - timeStarted) + "ms<green>)"));
 	}
 
 	public static Core get() {

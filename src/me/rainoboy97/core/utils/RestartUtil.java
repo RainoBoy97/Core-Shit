@@ -8,7 +8,7 @@ import java.io.File;
 import java.util.logging.Level;
 
 import me.rainoboy97.core.Core;
-import net.minecraft.server.v1_5_R3.MinecraftServer;
+import net.minecraft.server.v1_6_R1.MinecraftServer;
 
 import org.bukkit.entity.Player;
 
@@ -27,7 +27,7 @@ public class RestartUtil {
 					Thread.sleep(100);
 				} catch (InterruptedException ex) {}
 				
-				MinecraftServer.getServer().ae().a();
+				MinecraftServer.getServer().ag().a();
 
 				try {
 					Thread.sleep(100);

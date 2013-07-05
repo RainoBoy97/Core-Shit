@@ -2,10 +2,10 @@ package me.rainoboy97.core.utils;
 
 import java.util.HashMap;
 
-import net.minecraft.server.v1_5_R3.EntityHuman;
+import net.minecraft.server.v1_6_R1.EntityHuman;
 
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_5_R3.inventory.CraftInventoryCustom;
+import org.bukkit.craftbukkit.v1_6_R1.inventory.CraftInventoryCustom;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
@@ -157,7 +157,7 @@ public class InventoryUtil {
 		String title = inventory.getTitle();
 
 		if (inventory instanceof PlayerInventory) {
-			PlayerInventory pret = (PlayerInventory) new net.minecraft.server.v1_5_R3.PlayerInventory((EntityHuman) inventory.getHolder());
+			PlayerInventory pret = (PlayerInventory) new net.minecraft.server.v1_6_R1.PlayerInventory((EntityHuman) inventory.getHolder());
 			ret = pret;
 
 			PlayerInventory pinventory = (PlayerInventory) inventory;

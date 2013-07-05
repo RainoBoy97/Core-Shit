@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_5_R3.TextWrapper;
+import org.bukkit.craftbukkit.v1_6_R1.TextWrapper;
 import org.bukkit.entity.Player;
 
 /** Class/methods taken and modified from MCore - MassiveCraft **/
