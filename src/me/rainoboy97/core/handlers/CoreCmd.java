@@ -27,6 +27,10 @@ public abstract class CoreCmd implements CommandExecutor {
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
+				if(!player.hasPermission(command.getPermission())) {
+					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
+					return true;
+				}
 				return onCmd(player, null, command, alias, args);
 			}
 			sender.sendMessage(Txt.parse("<red>This command can only be executed by a player!"));
@@ -41,6 +45,10 @@ public abstract class CoreCmd implements CommandExecutor {
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
+				if(!player.hasPermission(command.getPermission())) {
+					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
+					return true;
+				}
 				return onCmd(player, null, command, alias, args);
 			}
 			if(isConsole(sender)) {
