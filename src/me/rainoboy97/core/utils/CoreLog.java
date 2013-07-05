@@ -16,7 +16,7 @@ public class CoreLog {
 	
 	/** Logging with level INFO **/
 	public static void log(String msg) {
-		log(Level.INFO, Txt.parse(msg));
+		log(Level.INFO, msg);
 	}
 	
 	/** Logging with level INFO and color **/

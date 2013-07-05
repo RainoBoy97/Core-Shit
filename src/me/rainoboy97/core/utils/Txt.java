@@ -318,11 +318,11 @@ public class Txt {
 		return getMaterialName(Material.getMaterial(materialId));
 	}
 
-	private final static String titleizeLine = repeat("_", 52);
+	private final static String titleizeLine = repeat("-", 52);
 	private final static int titleizeBalance = -1;
 
 	public static String titleize(String str) {
-		String center = ".[ " + parse("<l>") + str + parse("<a>") + " ].";
+		String center = "[ " + parse("<l>") + str + parse("<a>") + " ]";
 		int centerlen = ChatColor.stripColor(center).length();
 		int pivot = titleizeLine.length() / 2;
 		int eatLeft = (centerlen / 2) - titleizeBalance;

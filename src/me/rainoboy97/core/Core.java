@@ -1,5 +1,8 @@
 package me.rainoboy97.core;
 
+import java.util.logging.Level;
+
+import me.rainoboy97.core.commands.Core_cmd;
 import me.rainoboy97.core.utils.CoreLog;
 import me.rainoboy97.core.utils.Txt;
 
@@ -22,10 +25,21 @@ public class Core extends JavaPlugin implements Listener {
 		
 		CoreLog.logWithColor("<green>Enabling");
 		
-		
+		this.registerCommands();
 		
 		// Register events
 		CoreLog.logWithColor(Txt.parse("<green>Successfully enabled (<gold>" + (System.currentTimeMillis() - timeStarted) + "ms<green>)"));
+	}
+	
+	private boolean registerCommands() {
+		try {
+			this.getCommand("core").setExecutor(new Core_cmd(this));
+			return true;
+		} catch (Exception e) {
+			CoreLog.log(Level.WARNING, "Could not register commands!");
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public static Core get() {

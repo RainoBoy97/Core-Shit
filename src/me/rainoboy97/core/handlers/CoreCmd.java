@@ -27,26 +27,26 @@ public abstract class CoreCmd implements CommandExecutor {
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
-				if(!player.hasPermission(command.getPermission())) {
-					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
+				if(!player.hasPermission("core." + command.getName())) {
+					player.sendMessage(Txt.parse("<b>You do not have permission to use this command!"));
 					return true;
 				}
 				return onCmd(player, null, command, alias, args);
 			}
-			sender.sendMessage(Txt.parse("<red>This command can only be executed by a player!"));
+			sender.sendMessage(Txt.parse("<b>This command can only be executed by a player!"));
 		} else if (csender == CSender.CONSOLE_ONLY) {
 			if(isConsole(sender)) {
 				ConsoleCommandSender console = (ConsoleCommandSender) sender;
 				this.cmdSender = console;
 				return onCmd(null, console, command, alias, args);
 			}
-			sender.sendMessage(Txt.parse("<red>This command can only be executed by console!"));
+			sender.sendMessage(Txt.parse("<b>This command can only be executed by console!"));
 		} else if (csender == CSender.BOTH){
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
-				if(!player.hasPermission(command.getPermission())) {
-					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
+				if(!player.hasPermission("core." + command.getName())) {
+					player.sendMessage(Txt.parse("<b>You do not have permission to use this command!"));
 					return true;
 				}
 				return onCmd(player, null, command, alias, args);
@@ -57,7 +57,11 @@ public abstract class CoreCmd implements CommandExecutor {
 				return onCmd(null, console, command, alias, args);
 			}
 		}
-		return true;
+		return false;
+	}
+	
+	public void sendMsg(String msg) {
+		this.cmdSender.sendMessage(Txt.parse(msg));
 	}
 
 	public abstract boolean onCmd(Player player, ConsoleCommandSender console, Command command, String alias, String[] args);
@@ -76,7 +80,7 @@ public abstract class CoreCmd implements CommandExecutor {
 			this.csender = CSender.PLAYER_ONLY;
 			break;
 		case CONSOLE_ONLY:
-			this.csender = CSender.PLAYER_ONLY;
+			this.csender = CSender.CONSOLE_ONLY;
 			break;
 		case BOTH:
 			this.csender = CSender.BOTH;
