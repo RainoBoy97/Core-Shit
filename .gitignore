@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 *.jardesc
+colors.txt
 
 # External tool builders
 .externalToolBuilders/

@@ -10,19 +10,20 @@ import org.bukkit.entity.Player;
 
 public class PlayerUtil {
 
-	public static Player matchPlayer(CommandSender sender, String name) {
+	public static Player matchPlayer(CommandSender sender, String name, boolean silent) {
 		List<Player> player = Bukkit.matchPlayer(name);
 		if (player.isEmpty()) {
-			sender.sendMessage(RED + "No player matches found for " + AQUA + BOLD.toString() + name);
+			if (!silent)
+				sender.sendMessage(RED + "No player matches found for " + AQUA + BOLD.toString() + name);
 			return null;
 		} else if (player.size() > 1) {
-			sender.sendMessage(RED + "Found " + GOLD + BOLD.toString() + player.size() + RED + " player matches for " + AQUA + BOLD.toString() + name);
+			if (!silent)
+				sender.sendMessage(RED + "Found " + GOLD + BOLD.toString() + player.size() + RED + " player matches for " + AQUA + BOLD.toString() + name);
 			return null;
 		} else if (player.size() == 1) {
 			return player.get(0);
-		} else {
-			return null;
 		}
+		return null;
 
 	}
 

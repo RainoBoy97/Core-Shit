@@ -14,12 +14,13 @@ public abstract class CoreCmd implements CommandExecutor {
 	protected final Core plugin;
 
 	protected CommandSender cmdSender;
-
 	protected CSender csender;
+	protected int maxArgs;
 
-	public CoreCmd(Core plugin, CSender sender) {
+	public CoreCmd(Core plugin, CSender sender, int maxArgs) {
 		this.plugin = plugin;
 		this.setSender(sender);
+		this.maxArgs = maxArgs;
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
@@ -27,39 +28,51 @@ public abstract class CoreCmd implements CommandExecutor {
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
-				if(!player.hasPermission("core." + command.getName())) {
-					player.sendMessage(Txt.parse("<b>You do not have permission to use this command!"));
+				if (!player.hasPermission("core." + command.getName())) {
+					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
 					return true;
 				}
-				return onCmd(player, null, command, alias, args);
+				if (!(args.length > maxArgs)) {
+					return onCmd(player, null, command, alias, args);
+				}
+				player.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
 			}
-			sender.sendMessage(Txt.parse("<b>This command can only be executed by a player!"));
+			sender.sendMessage(Txt.parse("<red>This command can only be executed by a player!"));
 		} else if (csender == CSender.CONSOLE_ONLY) {
-			if(isConsole(sender)) {
+			if (isConsole(sender)) {
 				ConsoleCommandSender console = (ConsoleCommandSender) sender;
 				this.cmdSender = console;
-				return onCmd(null, console, command, alias, args);
+				if (!(args.length > maxArgs)) {
+					return onCmd(null, console, command, alias, args);
+				}
+				console.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
 			}
-			sender.sendMessage(Txt.parse("<b>This command can only be executed by console!"));
-		} else if (csender == CSender.BOTH){
+			sender.sendMessage(Txt.parse("<red>This command can only be executed by console!"));
+		} else if (csender == CSender.BOTH) {
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
-				if(!player.hasPermission("core." + command.getName())) {
-					player.sendMessage(Txt.parse("<b>You do not have permission to use this command!"));
+				if (!player.hasPermission("core." + command.getName())) {
+					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
 					return true;
 				}
-				return onCmd(player, null, command, alias, args);
+				if (!(args.length > maxArgs)) {
+					return onCmd(player, null, command, alias, args);
+				}
+				player.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
 			}
-			if(isConsole(sender)) {
+			if (isConsole(sender)) {
 				ConsoleCommandSender console = (ConsoleCommandSender) sender;
 				this.cmdSender = console;
-				return onCmd(null, console, command, alias, args);
+				if (!(args.length > maxArgs)) {
+					return onCmd(null, console, command, alias, args);
+				}
+				console.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
 			}
 		}
 		return false;
 	}
-	
+
 	public void sendMsg(String msg) {
 		this.cmdSender.sendMessage(Txt.parse(msg));
 	}

@@ -47,58 +47,27 @@ public class Txt {
 		// Color by name
 		parseReplacements.put("<empty>", "");
 		parseReplacements.put("<black>", "\u00A70");
-		parseReplacements.put("<navy>", "\u00A71");
-		parseReplacements.put("<green>", "\u00A72");
-		parseReplacements.put("<teal>", "\u00A73");
-		parseReplacements.put("<red>", "\u00A74");
-		parseReplacements.put("<purple>", "\u00A75");
+		parseReplacements.put("<darkblue>", "\u00A71");
+		parseReplacements.put("<darkgreen>", "\u00A72");
+		parseReplacements.put("<darkaqua>", "\u00A73");
+		parseReplacements.put("<darkred>", "\u00A74");
+		parseReplacements.put("<darkpurple>", "\u00A75");
 		parseReplacements.put("<gold>", "\u00A76");
-		parseReplacements.put("<silver>", "\u00A77");
-		parseReplacements.put("<gray>", "\u00A78");
+		parseReplacements.put("<gray>", "\u00A77");
+		parseReplacements.put("<darkgray>", "\u00A78");
 		parseReplacements.put("<blue>", "\u00A79");
-		parseReplacements.put("<lime>", "\u00A7a");
+		parseReplacements.put("<green>", "\u00A7a");
 		parseReplacements.put("<aqua>", "\u00A7b");
-		parseReplacements.put("<rose>", "\u00A7c");
-		parseReplacements.put("<pink>", "\u00A7d");
+		parseReplacements.put("<red>", "\u00A7c");
+		parseReplacements.put("<purple>", "\u00A7d");
 		parseReplacements.put("<yellow>", "\u00A7e");
 		parseReplacements.put("<white>", "\u00A7f");
 		parseReplacements.put("<magic>", "\u00A7k");
 		parseReplacements.put("<bold>", "\u00A7l");
-		parseReplacements.put("<strong>", "\u00A7l");
 		parseReplacements.put("<strike>", "\u00A7m");
-		parseReplacements.put("<strikethrough>", "\u00A7m");
 		parseReplacements.put("<under>", "\u00A7n");
-		parseReplacements.put("<underline>", "\u00A7n");
 		parseReplacements.put("<italic>", "\u00A7o");
-		parseReplacements.put("<em>", "\u00A7o");
 		parseReplacements.put("<reset>", "\u00A7r");
-
-		// Color by semantic functionality
-		parseReplacements.put("<l>", "\u00A72");
-		parseReplacements.put("<logo>", "\u00A72");
-		parseReplacements.put("<a>", "\u00A76");
-		parseReplacements.put("<art>", "\u00A76");
-		parseReplacements.put("<n>", "\u00A77");
-		parseReplacements.put("<notice>", "\u00A77");
-		parseReplacements.put("<i>", "\u00A7e");
-		parseReplacements.put("<info>", "\u00A7e");
-		parseReplacements.put("<g>", "\u00A7a");
-		parseReplacements.put("<good>", "\u00A7a");
-		parseReplacements.put("<b>", "\u00A7c");
-		parseReplacements.put("<bad>", "\u00A7c");
-
-		parseReplacements.put("<k>", "\u00A7b");
-		parseReplacements.put("<key>", "\u00A7b");
-
-		parseReplacements.put("<v>", "\u00A7d");
-		parseReplacements.put("<value>", "\u00A7d");
-		parseReplacements.put("<h>", "\u00A7d");
-		parseReplacements.put("<highlight>", "\u00A7d");
-
-		parseReplacements.put("<c>", "\u00A7b");
-		parseReplacements.put("<command>", "\u00A7b");
-		parseReplacements.put("<p>", "\u00A73");
-		parseReplacements.put("<parameter>", "\u00A73");
 		parseReplacements.put("&&", "&");
 		parseReplacements.put("§§", "§");
 
@@ -122,7 +91,6 @@ public class Txt {
 		patternString = patternString.substring(0, patternString.length() - 1);
 		parsePattern = Pattern.compile(patternString);
 	}
-
 
 	private Txt() {
 
@@ -319,19 +287,33 @@ public class Txt {
 	}
 
 	private final static String titleizeLine = repeat("-", 52);
-	private final static int titleizeBalance = -1;
+	private final static int titleizeBalance = 0;
 
-	public static String titleize(String str) {
-		String center = "[ " + parse("<l>") + str + parse("<a>") + " ]";
+	public static String titleize(String str, String color1, String color2) {
+		String center = "< " + parse(color2) + str + parse(color1) + " >";
 		int centerlen = ChatColor.stripColor(center).length();
 		int pivot = titleizeLine.length() / 2;
 		int eatLeft = (centerlen / 2) - titleizeBalance;
 		int eatRight = (centerlen - eatLeft) + titleizeBalance;
 
 		if (eatLeft < pivot)
-			return parse("<a>") + titleizeLine.substring(0, pivot - eatLeft) + center + titleizeLine.substring(pivot + eatRight);
+			return parse(color1) + titleizeLine.substring(0, pivot - eatLeft) + center + titleizeLine.substring(pivot + eatRight);
 		else
-			return parse("<a>") + center;
+			return parse(color1) + center;
+	}
+	
+	private final static String centerLine = repeat(" ", 80);
+	private final static int centerBalance = 0;
+	
+	public static String center(String str) {
+		String center = str;
+		int centerlen = ChatColor.stripColor(center).length();
+		int pivot = centerLine.length() / 2;
+		int eatLeft = (centerlen / 2) - centerBalance;
+		if (eatLeft < pivot)
+			return parse(centerLine.substring(0, pivot - eatLeft) + center);
+		else
+			return parse(center);
 	}
 
 	public static ArrayList<String> getPage(List<String> lines, int pageHumanBased, String title) {
@@ -353,7 +335,7 @@ public class Txt {
 		int pageZeroBased = pageHumanBased - 1;
 		int pagecount = (int) Math.ceil(((double) lines.size()) / pageheight);
 
-		ret.add(titleize(title + parse("<a>") + " " + pageHumanBased + "/" + pagecount));
+		ret.add(titleize(title + parse("<a>") + " " + pageHumanBased + "/" + pagecount, "<gold>", "<green>"));
 
 		if (pagecount == 0) {
 			ret.add(parse("<i>Sorry. No Pages available."));
