@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -286,11 +287,11 @@ public class Txt {
 		return getMaterialName(Material.getMaterial(materialId));
 	}
 
-	private final static String titleizeLine = repeat("-", 52);
+	private final static String titleizeLine = repeat("=", 52);
 	private final static int titleizeBalance = 0;
 
 	public static String titleize(String str, String color1, String color2) {
-		String center = "< " + parse(color2) + str + parse(color1) + " >";
+		String center = "[ " + parse(color2) + str + parse(color1) + " ]";
 		int centerlen = ChatColor.stripColor(center).length();
 		int pivot = titleizeLine.length() / 2;
 		int eatLeft = (centerlen / 2) - titleizeBalance;
@@ -301,19 +302,9 @@ public class Txt {
 		else
 			return parse(color1) + center;
 	}
-	
-	private final static String centerLine = repeat(" ", 80);
-	private final static int centerBalance = 0;
-	
+
 	public static String center(String str) {
-		String center = str;
-		int centerlen = ChatColor.stripColor(center).length();
-		int pivot = centerLine.length() / 2;
-		int eatLeft = (centerlen / 2) - centerBalance;
-		if (eatLeft < pivot)
-			return parse(centerLine.substring(0, pivot - eatLeft) + center);
-		else
-			return parse(center);
+		return StringUtils.stripEnd(StringUtils.center(Txt.parse(str), 80), " ");
 	}
 
 	public static ArrayList<String> getPage(List<String> lines, int pageHumanBased, String title) {

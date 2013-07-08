@@ -16,6 +16,7 @@ public class Core_cmd extends CoreCmd {
 	public Core_cmd(Core plugin) {
 		super(plugin, CSender.BOTH, 1);
 		this.plugin = plugin;
+		this.registerCommand("core", "c");
 	}
 
 	@Override
