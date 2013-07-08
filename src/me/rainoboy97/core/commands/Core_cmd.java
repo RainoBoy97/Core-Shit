@@ -32,6 +32,7 @@ public class Core_cmd extends CoreCmd {
 		}
 		if(args[0].equalsIgnoreCase("?")) {
 			sendMsg(Txt.titleize(Core.desc().getName() + " help", "<purple>", "<blue>"));
+			sendMsg(Txt.center("<gray>No help!"));
 			sendMsg(Txt.titleize(Core.desc().getName() + " help", "<purple>", "<blue>"));
 			
 			return true;

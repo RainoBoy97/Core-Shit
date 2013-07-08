@@ -33,7 +33,7 @@ public abstract class CoreCmd implements CommandExecutor {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-		if (csender == CSender.PLAYER_ONLY || csender == CSender.BOTH) {
+		if (csender == CSender.PLAYER_ONLY) {
 			if (isPlayer(sender)) {
 				Player player = (Player) sender;
 				this.cmdSender = player;
@@ -47,7 +47,7 @@ public abstract class CoreCmd implements CommandExecutor {
 				player.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
 			}
 			sender.sendMessage(Txt.parse("<red>This command can only be executed by a player!"));
-		} else if (csender == CSender.CONSOLE_ONLY || csender == CSender.BOTH) {
+		} else if (csender == CSender.CONSOLE_ONLY) {
 			if (isConsole(sender)) {
 				ConsoleCommandSender console = (ConsoleCommandSender) sender;
 				this.cmdSender = console;
@@ -57,45 +57,66 @@ public abstract class CoreCmd implements CommandExecutor {
 				console.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
 			}
 			sender.sendMessage(Txt.parse("<red>This command can only be executed by console!"));
+		} else if (csender == CSender.BOTH) {
+			if (isPlayer(sender)) {
+				Player player = (Player) sender;
+				this.cmdSender = player;
+				if (!player.hasPermission("core." + command.getName())) {
+					player.sendMessage(Txt.parse("<red>You do not have permission to use this command!"));
+					return true;
+				}
+				if (!(args.length > maxArgs)) {
+					return onCmd(player, null, command, alias, args);
+				}
+				player.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
+			}
+			if (isConsole(sender)) {
+				ConsoleCommandSender console = (ConsoleCommandSender) sender;
+				this.cmdSender = console;
+				if (!(args.length > maxArgs)) {
+					return onCmd(null, console, command, alias, args);
+				}
+				console.sendMessage(Txt.parse("<red>Too many arguments (%s allowed)", maxArgs));
+			}
 		}
 		return false;
 	}
-
+	 
 	public void registerCommand(String... aliases) {
 		PluginCommand command = getCommand(aliases[0], plugin);
 		command.setAliases(Arrays.asList(aliases));
 		getCommandMap().register(plugin.getDescription().getName(), command);
 		plugin.getCommand(aliases[0]).setExecutor(this);
 	}
-
+	 
 	private PluginCommand getCommand(String name, Plugin plugin) {
 		PluginCommand command = null;
-
+	 
 		try {
 			Constructor<PluginCommand> c = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
 			c.setAccessible(true);
-
+	 
 			command = c.newInstance(name, plugin);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return command;
 	}
-
+	 
 	private static CommandMap getCommandMap() {
 		CommandMap commandMap = null;
-
+	 
 		try {
 			if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
 				Field f = SimplePluginManager.class.getDeclaredField("commandMap");
 				f.setAccessible(true);
-
+	 
 				commandMap = (CommandMap) f.get(Bukkit.getPluginManager());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	 
 		return commandMap;
 	}
 
