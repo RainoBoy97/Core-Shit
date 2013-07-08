@@ -2,7 +2,6 @@ package me.rainoboy97.core.handlers;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import me.rainoboy97.core.Core;
@@ -77,17 +76,7 @@ public abstract class CoreCmd implements CommandExecutor {
 			c.setAccessible(true);
 
 			command = c.newInstance(name, plugin);
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return command;
@@ -103,13 +92,7 @@ public abstract class CoreCmd implements CommandExecutor {
 
 				commandMap = (CommandMap) f.get(Bukkit.getPluginManager());
 			}
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
